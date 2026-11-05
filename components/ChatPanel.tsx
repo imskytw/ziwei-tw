@@ -102,7 +102,7 @@ export default function ChatPanel({ chart }: ChatPanelProps) {
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0">
         {messages.length === 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-8">
-            <div className="text-4xl mb-3" style={{ color: 'var(--t-gold)', opacity: 0.15 }}>✦</div>
+            
             <p className="text-xs leading-relaxed" style={{ color: 'var(--t-faint)' }}>
               命盤已生成，可直接提問<br />
               或從下方選擇常見問題開始解讀

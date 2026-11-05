@@ -1,18 +1,23 @@
+import { INTL_PROVINCES } from './cities-intl';
 export interface CityInfo {
   name: string;
-  longitude: number; // degrees East
+  longitude: number; // degrees East（西經為負）
+  /** 海外城市的 IANA 時區；沒填就用所屬國家的 tz */
+  tz?: string;
 }
 
-/** 'tw' 台灣、'hkmo' 港澳、'cn'（或省略）中國大陸 —— 用來決定套用哪一套夏令時規則與表單分組 */
-export type Region = 'tw' | 'hkmo' | 'cn';
+/** 'tw' 台灣、'hkmo' 港澳、'cn'（或省略）中國大陸、'intl' 海外 —— 用來決定套用哪一套夏令時規則與表單分組 */
+export type Region = 'tw' | 'hkmo' | 'cn' | 'intl';
 
 export interface ProvinceInfo {
   name: string;
   region?: Region;
+  /** 海外國家的預設 IANA 時區 */
+  tz?: string;
   cities: CityInfo[];
 }
 
-export const REGION_LABEL: Record<Region, string> = { tw: '台灣', hkmo: '港澳', cn: '中國大陸' };
+export const REGION_LABEL: Record<Region, string> = { tw: '台灣', hkmo: '港澳', cn: '中國大陸', intl: '海外' };
 export const regionOf = (p?: ProvinceInfo | null): Region => p?.region ?? 'cn';
 
 // ★ 2026-10-07 使用者反饋「出生地點還不夠全」→ 補全全國區縣（直轄市以外 2724 個，掛在各地級市下）。
@@ -20,7 +25,7 @@ export const regionOf = (p?: ProvinceInfo | null): Region => p?.region ?? 'cn';
 //   區縣表與拼音表在 lib/ziwei/counties.generated.ts、lib/i18n/county-pinyin.generated.ts，
 //   開啟地點選擇框時才動態載入（lib/ziwei/county-data.ts）。區縣選中後城市欄位存成「地級市·區縣」，
 //   見 lib/ziwei/county-label.ts。省直轄縣級單位（仙桃、海南各市縣、新疆兵團各市）仍是本表的市一級。
-export const PROVINCES: ProvinceInfo[] = [
+const BASE_PROVINCES: ProvinceInfo[] = [
   // ─── 台灣（22 縣市、368 鄉鎮市區）────────────────────────
   // 經度：內政部國土測繪中心鄉鎮界（taiwan-atlas 2021.9.20 版 TopoJSON）各鄉鎮最大一塊陸地的幾何中心，
   // 由 scripts/gen-taiwan-towns.js 產生。山地鄉面積大，中心點可能偏離聚落 0.1–0.2°（真太陽時約 0.5 分鐘），可接受。
@@ -926,5 +931,14 @@ export const PROVINCES: ProvinceInfo[] = [
   },
 
   // 注：海外出生暫未支援，因 share.ts 真太陽時演算法假設輸入為 UTC+8（台灣／中國大陸／港澳同一時區）。
-  // 海外使用者請把當地時間換算成台灣時間（UTC+8）再填寫。
 ];
+
+export const PROVINCES: ProvinceInfo[] = [...BASE_PROVINCES, ...INTL_PROVINCES];
+
+
+/** 出生地的 IANA 時區（只有海外有）；台灣、港澳、中國大陸回傳 undefined，固定用 UTC+8 */
+export function tzOf(provinceName?: string, cityName?: string): string | undefined {
+  const p = PROVINCES.find(x => x.name === provinceName);
+  if (!p || p.region !== 'intl') return undefined;
+  return p.cities.find(c => c.name === cityName)?.tz ?? p.tz;
+}

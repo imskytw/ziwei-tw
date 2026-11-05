@@ -42,4 +42,4 @@ ok('非節氣日 1990-06-15 午時 節氣四柱穩定=庚午/壬午/辛亥/甲�
 ok('日柱不受立春邊界影響（會員案例=癸丑）', m.fourPillars?.[2] === '癸丑');
 ok('時柱不受立春邊界影響（會員案例丑時=癸丑）', m.fourPillars?.[3] === '癸丑');
 
-console.log(`\n[sizhu-lichun-boundary] ${passed} 項斷言全部透過`);
+console.log(`\n[sizhu-lichun-boundary] ${passed} 項斷言全部通過`);

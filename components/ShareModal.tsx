@@ -82,7 +82,7 @@ export default function ShareModal({ open, onClose, shareUrl, chart, birth, high
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             }}>
               <div style={{ fontSize: '14px', fontWeight: 600, color: '#3d2f10', letterSpacing: '0.12em' }}>
-                ✦ 分享命盤
+                分享命盤
               </div>
               <button onClick={onClose}
                 style={{
@@ -127,7 +127,7 @@ export default function ShareModal({ open, onClose, shareUrl, chart, birth, high
                   cursor: 'pointer',
                 }}
               >
-                {copied ? '✓ 已複製連結' : '🔗 複製命盤連結'}
+                {copied ? '已複製連結' : '複製命盤連結'}
               </button>
 
               <div style={{

@@ -36,7 +36,6 @@ export default function KnowledgeHomePage() {
       <ContentHeader current="knowledge" />
       <main className="content-page">
         <div className="content-hero">
-          <p className="eyebrow">倪海廈《天紀》體系</p>
           <h1>紫微斗數百科</h1>
           <p className="lede">依倪師課堂原話分類整理。想看自己命盤的完整解讀，請到 <Link href="/chart">排盤</Link> 頁的「斷語解讀」。</p>
         </div>

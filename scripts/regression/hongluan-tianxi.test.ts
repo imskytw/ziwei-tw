@@ -47,4 +47,4 @@ for (let yearBranch = 0; yearBranch < 12; yearBranch += 1) {
   );
 }
 
-console.log('✓ 甲寅案例與十二年支紅鸞天喜對映、唯一性及對宮關係回歸透過');
+console.log('✓ 甲寅案例與十二年支紅鸞天喜對映、唯一性及對宮關係回歸通過');

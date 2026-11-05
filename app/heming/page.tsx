@@ -7,46 +7,7 @@ import { generateChart as buildChart } from '@/lib/ziwei/algorithm';
 import type { BirthInfo, ZiweiChart } from '@/lib/ziwei/types';
 import { useTheme } from '@/components/ThemeProvider';
 import ContentHeader from '@/components/ContentHeader';
-
-// ─── AiContent 渲染器（與 InsightPanel 一致）────────────────
-function AiContent({ text, streaming }: { text: string; streaming?: boolean }) {
-  const lines = text.split('\n');
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-      {lines.map((line, i) => {
-        const sectionMatch = line.match(/^\*\*【(.+?)】\*\*$/);
-        if (sectionMatch) {
-          return (
-            <div key={i} style={{ paddingTop: i === 0 ? 0 : '14px', paddingBottom: '4px' }}>
-              <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--ac)', letterSpacing: '0.04em' }}>
-                【{sectionMatch[1]}】
-              </span>
-            </div>
-          );
-        }
-        if (line.trim() === '') return <div key={i} style={{ height: '4px' }} />;
-        const parts = line.split(/\*\*(.+?)\*\*/);
-        return (
-          <div key={i} style={{ fontSize: '13px', lineHeight: 1.75, color: 'var(--tx-2)' }}>
-            {parts.map((part, j) =>
-              j % 2 === 0
-                ? part
-                : <strong key={j} style={{ fontWeight: 500, color: 'var(--tx-0)' }}>{part}</strong>
-            )}
-          </div>
-        );
-      })}
-      {streaming && (
-        <span style={{
-          display: 'inline-block', width: '7px', height: '13px',
-          background: 'var(--ac)', opacity: 0.5, borderRadius: '2px',
-          animation: 'pulse 1s ease-in-out infinite',
-          verticalAlign: 'middle', marginLeft: '2px',
-        }} />
-      )}
-    </div>
-  );
-}
+import AiContent from '@/components/AiContent';
 
 export default function HemingPage() {
   const router = useRouter();
@@ -210,35 +171,17 @@ export default function HemingPage() {
           justifyContent: (!analysis && !analyzing) ? 'center' : 'flex-start',
         }}>
           {/* 區塊標題 */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: (analysis || analyzing) ? '20px' : '24px' }}>
-            <span style={{ color: 'var(--ac)', opacity: 0.6 }}>◉</span>
-            <span style={{ fontSize: '11px', letterSpacing: '0.02em', color: 'var(--tx-3)' }}>合盤分析</span>
-          </div>
+          <h2 className="heming-title">合盤分析</h2>
 
           {/* 狀態分支 */}
           {!analysis && !analyzing && (
             <div style={{ textAlign: 'center', padding: '32px 0' }}>
-              <div style={{ fontSize: '13px', color: 'var(--tx-3)', marginBottom: '24px', lineHeight: 1.7 }}>
-                填好雙方出生資訊後，點選下方按鈕<br />
-                AI 將基於倪海廈體系深度分析兩人緣分匹配度
-              </div>
-              <button
-                onClick={() => runAnalysis()}
-                style={{
-                  padding: '14px 40px', borderRadius: 'var(--r-pill)', border: 'none',
-                  background: 'linear-gradient(135deg, #9a6210, #c88020)',
-                  color: '#fff8e8', fontSize: '14px', fontWeight: 600,
-                  letterSpacing: '0.02em', cursor: 'pointer',
-                  boxShadow: '0 4px 16px rgba(140,100,20,0.25)',
-                  transition: 'transform 0.15s',
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}
-              >
+              <p className="heming-hint">填好兩個人的出生資料，按下按鈕，AI 會依倪海廈的看法分析兩人的契合度與相處方式。</p>
+              <button type="button" className="btn" onClick={() => runAnalysis()}>
                 開始合盤分析
               </button>
               {formError && (
-                <div style={{ marginTop: '20px', fontSize: '13px', color: '#dc2626' }}>
+                <div className="heming-error" role="alert">
                   {formError}
                 </div>
               )}
@@ -246,7 +189,7 @@ export default function HemingPage() {
           )}
 
           {analyzing && !analysis && (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '40px 0', color: 'var(--tx-3)', fontSize: '13px' }}>
+            <div className="heming-status" role="status">
               <div style={{
                 width: '14px', height: '14px',
                 border: '2px solid var(--bdr-med)', borderTopColor: 'var(--ac)',
@@ -259,10 +202,10 @@ export default function HemingPage() {
           {analysis && <AiContent text={analysis} streaming={analyzing} />}
 
           {analysisError && (
-            <div style={{ padding: '12px 16px', borderRadius: '10px', border: '1px solid var(--bdr)', background: 'var(--bg-card)', fontSize: '13px', color: 'var(--tx-2)', marginTop: '12px' }}>
+            <div className="heming-notice" role="alert">
               {apiMissing
-                ? '開源版不含合盤 AI 分析介面（/api/heming），需要你自己實現後才能用。兩人的命盤可以分別到「排盤」頁（/chart）檢視。'
-                : '分析暫時不可用，請重試。'}
+                ? 'AI 還沒有設定。請關掉網站視窗，雙擊專案資料夾裡的「設定AI」填入金鑰，再重新啟動。兩人的命盤仍可以分別到「排盤」頁查看。'
+                : '這次分析沒有完成，可能是網路或 AI 服務暫時不穩。請再按一次「開始分析」。'}
             </div>
           )}
         </div>
@@ -270,9 +213,7 @@ export default function HemingPage() {
         {/* ═══ 針對合盤的追問聊天框（僅分析完成後顯示）═══════════ */}
         {analysis && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '16px' }}>
-            <div style={{ fontSize: '11px', letterSpacing: '0.02em', color: 'var(--tx-3)', marginBottom: '4px' }}>
-              針對此次合盤繼續追問
-            </div>
+            <h3 className="heming-subtitle">針對這次合盤繼續追問</h3>
 
             {/* 快捷問題 */}
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -280,24 +221,15 @@ export default function HemingPage() {
                 '感情匹配度如何？',
                 '適合合夥創業嗎？',
                 '兩人結婚是否合適？',
-                '哪方面最容易產生矛盾？',
+                '哪方面最容易起衝突？',
                 '財運是否互補？',
               ].map(q => (
                 <button
                   key={q}
+                  type="button"
+                  className="heming-chip"
                   onClick={() => { setQuestion(q); runAnalysis(q); }}
                   disabled={analyzing}
-                  style={{
-                    fontSize: '12px', padding: '6px 14px',
-                    borderRadius: 'var(--r-pill)',
-                    border: '1px solid var(--bdr-med)',
-                    background: 'transparent', color: 'var(--tx-2)',
-                    cursor: analyzing ? 'not-allowed' : 'pointer',
-                    opacity: analyzing ? 0.5 : 1,
-                    transition: 'border-color 0.15s',
-                  }}
-                  onMouseEnter={e => { if (!analyzing) (e.currentTarget as HTMLElement).style.borderColor = 'var(--ac-bdr)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--bdr-med)'; }}
                 >
                   {q}
                 </button>
@@ -313,20 +245,14 @@ export default function HemingPage() {
                 onKeyDown={e => { if (e.key === 'Enter' && !analyzing) runAnalysis(question || undefined); }}
                 placeholder="繼續追問，如：哪幾年是兩人感情關鍵期？"
                 disabled={analyzing}
-                className="input-base"
-                style={{ fontSize: '13px', flex: 1 }}
+                className="input-base heming-input"
+                aria-label="追問內容"
               />
               <button
+                type="button"
+                className="btn"
                 onClick={() => runAnalysis(question || undefined)}
                 disabled={analyzing}
-                style={{
-                  padding: '10px 20px', borderRadius: 'var(--r-sm)', border: 'none',
-                  background: analyzing ? 'var(--bg-2)' : 'var(--tx-0)',
-                  color: analyzing ? 'var(--tx-3)' : 'white',
-                  fontSize: '13px', fontWeight: 500,
-                  cursor: analyzing ? 'not-allowed' : 'pointer',
-                  transition: 'all 0.15s', whiteSpace: 'nowrap',
-                }}
               >
                 {analyzing ? '分析中…' : '繼續追問'}
               </button>

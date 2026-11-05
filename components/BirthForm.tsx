@@ -8,7 +8,9 @@ import { PROVINCES, REGION_LABEL, regionOf, type Region } from '@/lib/ziwei/citi
 import { taiwanClockShift } from '@/lib/ziwei/dst-tw';
 import { isChinaDST, chinaDSTRange } from '@/lib/ziwei/dst-cn';
 import { shiftClock, formatClock, type ClockTime } from '@/lib/ziwei/clock-adjust';
-import { formToBirthInfo, calcTrueSolarBranch } from '@/lib/ziwei/share';
+import { formToBirthInfo, calcTrueSolarBranch, utcOffsetForForm, longitudeOffsetMinutes } from '@/lib/ziwei/share';
+import { formatUtcOffset, standardOffset } from '@/lib/ziwei/tz';
+import { tzOf } from '@/lib/ziwei/cities';
 
 export interface BirthFormState {
   name: string;
@@ -76,16 +78,27 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
     return prov ? prov.cities : [];
   }, [form.province]);
 
+  // 海外出生地：當時的 UTC 偏移（已含當地夏令時間）；台灣、港澳、中國大陸固定 480
+  const birthTz = tzOf(form.province, form.city);
+  const utcOffset = useMemo(
+    () => utcOffsetForForm(form),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [form.province, form.city, form.year, form.month, form.day, form.clockHour, form.clockMinute, form.unknownTime],
+  );
+  const localDst = birthTz && form.year ? utcOffset > standardOffset(birthTz, parseInt(form.year)) : false;
+
   const branch = useMemo(() => {
     if (form.unknownTime) return 0;
     return calcTrueSolarBranch(
       parseInt(form.clockHour) || 0,
       parseInt(form.clockMinute) || 0,
       form.longitude,
+      utcOffset,
     );
-  }, [form.clockHour, form.clockMinute, form.longitude, form.unknownTime]);
+  }, [form.clockHour, form.clockMinute, form.longitude, form.unknownTime, utcOffset]);
 
-  const offsetMin = Math.round((form.longitude - 120) * 4);
+  const offsetMin = Math.round(longitudeOffsetMinutes(form.longitude, utcOffset));
+  const lonLabel = `${Math.abs(form.longitude).toFixed(1)}°${form.longitude >= 0 ? 'E' : 'W'}`;
   const shichenInfo = SHICHEN[branch];
 
   // ─── 校驗邏輯 ───────────────────────────────────────────
@@ -214,7 +227,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
             transition={{ duration: 0.18 }}
             style={{ color: errorClr, fontSize: '14px', marginTop: '4px' }}
           >
-            ✕ {msg}
+            {msg}
           </motion.p>
         )}
       </AnimatePresence>
@@ -250,7 +263,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
 
       {/* ── 姓名 ── */}
       <div style={{ marginBottom: '16px' }}>
-        <label style={{ display: 'block', fontSize: '14px', color: labelClr, marginBottom: '8px' }}>姓名（可選）</label>
+        <label style={{ display: 'block', fontSize: '15px', fontWeight: 600, color: labelClr, marginBottom: '8px' }}>姓名（可選）</label>
         <input
           type="text"
           placeholder="請輸入姓名"
@@ -264,7 +277,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
 
       {/* ── 出生日期 ── */}
       <div style={{ marginBottom: '16px' }}>
-        <label style={{ display: 'block', fontSize: '14px', color: labelClr, marginBottom: '8px' }}>出生日期（公曆）</label>
+        <label style={{ display: 'block', fontSize: '15px', fontWeight: 600, color: labelClr, marginBottom: '8px' }}>出生日期（公曆）</label>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
           <div>
             <select
@@ -313,7 +326,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
 
       {/* ── 出生地點 ── */}
       <div style={{ marginBottom: '16px' }}>
-        <label style={{ display: 'block', fontSize: '14px', color: labelClr, marginBottom: '8px' }}>出生地點（用於真太陽時校正）</label>
+        <label style={{ display: 'block', fontSize: '15px', fontWeight: 600, color: labelClr, marginBottom: '8px' }}>出生地點（用於真太陽時校正）</label>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
           <select
             value={form.province}
@@ -322,8 +335,8 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
             onFocus={e => { e.target.style.borderColor = focusBorder; }}
             onBlur={e => { e.target.style.borderColor = inputBorder; }}
           >
-            <option value="">縣市 / 省份</option>
-            {(['tw', 'hkmo', 'cn'] as Region[]).map(r => (
+            <option value="">縣市 / 國家</option>
+            {(['tw', 'intl', 'hkmo', 'cn'] as Region[]).map(r => (
               <optgroup key={r} label={REGION_LABEL[r]}>
                 {PROVINCES.filter(p => regionOf(p) === r).map(p => (
                   <option key={p.name} value={p.name}>{p.name}</option>
@@ -339,7 +352,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
             onFocus={e => { e.target.style.borderColor = focusBorder; }}
             onBlur={e => { e.target.style.borderColor = inputBorder; }}
           >
-            <option value="">{form.province ? '鄉鎮市區' : '先選縣市'}</option>
+            <option value="">{!form.province ? '鄉鎮 / 城市' : region === 'intl' ? '城市' : '鄉鎮市區'}</option>
             {cityList.map(c => (
               <option key={c.name} value={c.name}>{c.name}</option>
             ))}
@@ -352,9 +365,11 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              style={{ fontSize: '13px', color: isDark ? 'rgba(180,210,235,0.85)' : 'rgba(100,70,10,0.5)', marginTop: '5px' }}
+              style={{ fontSize: '14.5px', color: isDark ? 'rgba(180,210,235,0.85)' : 'rgba(70,52,16,0.82)', marginTop: '5px' }}
             >
-              {form.city || '（請選擇鄉鎮市區）'} · 經度 {form.longitude.toFixed(1)}°E · 時差 {offsetMin > 0 ? '+' : ''}{offsetMin} 分鐘
+              {form.city || (region === 'intl' ? '（請選擇城市）' : '（請選擇鄉鎮市區）')} · 經度 {lonLabel}
+              {birthTz ? ` · 當地 ${formatUtcOffset(utcOffset)}${localDst ? '（當時實施夏令時間，已自動換算）' : ''}` : ''}
+              {' · '}真太陽時差 {offsetMin > 0 ? '+' : ''}{offsetMin} 分鐘
             </motion.p>
           ) : (
             <motion.p
@@ -362,9 +377,9 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              style={{ fontSize: '13px', color: isDark ? 'rgba(165,185,210,0.7)' : 'rgba(140,100,20,0.45)', marginTop: '5px' }}
+              style={{ fontSize: '14.5px', color: isDark ? 'rgba(165,185,210,0.7)' : 'rgba(70,52,16,0.75)', marginTop: '5px' }}
             >
-              * 倪海廈批命用真太陽時，建議選擇出生的鄉鎮市區以自動校正時辰
+              * 倪海廈批命用真太陽時，建議選到出生的鄉鎮市區；海外出生請選國家與城市，時差與當地夏令時間會自動換算
             </motion.p>
           )}
         </AnimatePresence>
@@ -372,7 +387,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
 
       {/* ── 出生時間 ── */}
       <div style={{ marginBottom: '16px' }}>
-        <label style={{ display: 'block', fontSize: '14px', color: labelClr, marginBottom: '8px' }}>出生時間（出生地當時的鐘錶時間）</label>
+        <label style={{ display: 'block', fontSize: '15px', fontWeight: 600, color: labelClr, marginBottom: '8px' }}>出生時間（出生地當時的鐘錶時間）</label>
         <div style={{ borderRadius: '2px', padding: '12px', background: panelBg, border: `1px solid ${panelBorder}`, opacity: form.unknownTime ? 0.45 : 1, pointerEvents: form.unknownTime ? 'none' : 'auto', transition: 'opacity 0.2s' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '8px' }}>
             <select
@@ -396,12 +411,12 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
           </div>
           {/* 真太陽時結果 */}
           <div style={{ textAlign: 'center', padding: '4px 0' }}>
-            <span style={{ fontSize: '13px', color: isDark ? 'rgba(170,195,220,0.75)' : 'rgba(140,100,20,0.5)' }}>真太陽時 → </span>
+            <span style={{ fontSize: '14.5px', color: isDark ? 'rgba(170,195,220,0.75)' : 'rgba(70,52,16,0.78)' }}>真太陽時 → </span>
             <span style={{ fontSize: '15px', color: goldText, fontWeight: 600, letterSpacing: '0.08em' }}>
               {SHICHEN_NAMES[branch]}時
             </span>
             {shichenInfo && (
-              <span style={{ fontSize: '13px', color: isDark ? 'rgba(170,195,220,0.75)' : 'rgba(140,100,20,0.5)', marginLeft: '4px' }}>
+              <span style={{ fontSize: '14.5px', color: isDark ? 'rgba(170,195,220,0.75)' : 'rgba(70,52,16,0.78)', marginLeft: '4px' }}>
                 （{shichenInfo.range}）
               </span>
             )}
@@ -414,7 +429,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
             onChange={e => setForm({ ...form, unknownTime: e.target.checked })}
             style={{ width: '14px', height: '14px', borderRadius: '4px', cursor: 'pointer' }}
           />
-          <span style={{ fontSize: '13px', color: isDark ? 'rgba(165,185,210,0.7)' : 'rgba(140,100,20,0.45)' }}>
+          <span style={{ fontSize: '14.5px', color: isDark ? 'rgba(165,185,210,0.7)' : 'rgba(70,52,16,0.75)' }}>
             不知道出生時間，以子時（23:00–01:00）起盤
           </span>
         </label>
@@ -436,7 +451,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
               color: isDark ? 'rgba(253,230,138,0.92)' : '#854d0e',
             }}>
               <div style={{ fontWeight: 600, marginBottom: '2px' }}>
-                {clockShift.kind === 'jst' ? '⏰ 日治時期使用日本標準時' : '⏰ 出生當天正在實施夏令時間'}
+                {clockShift.kind === 'jst' ? '日治時期使用日本標準時' : '出生當天正在實施夏令時間'}
               </div>
               <div>
                 {clockShift.range}，當時鐘錶比現在快 1 小時。
@@ -445,7 +460,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
               <div style={{ marginTop: '8px', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                 {dstUndo ? (
                   <>
-                    <span>✓ 已從 {formatClock(dstUndo)} 改為 {formatClock({ clockHour: form.clockHour, clockMinute: form.clockMinute })}</span>
+                    <span>已從 {formatClock(dstUndo)} 改為 {formatClock({ clockHour: form.clockHour, clockMinute: form.clockMinute })}</span>
                     <button type="button" onClick={undoDst} style={{ fontSize: '14px', padding: '3px 10px', borderRadius: '8px', border: '1px solid currentColor', background: 'transparent', color: 'inherit', cursor: 'pointer' }}>復原</button>
                   </>
                 ) : shiftedClock ? (
@@ -463,12 +478,12 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
 
       {/* ── 性別 ── */}
       <div style={{ marginBottom: '20px' }}>
-        <label style={{ display: 'block', fontSize: '14px', color: labelClr, marginBottom: '8px' }}>性別</label>
+        <label style={{ display: 'block', fontSize: '15px', fontWeight: 600, color: labelClr, marginBottom: '8px' }}>性別</label>
         <div style={{ display: 'flex', gap: '10px' }}>
           {(['male', 'female'] as const).map(g => {
             const active = form.gender === g;
             const isMale = g === 'male';
-            const accent = isMale ? '37,99,235' : '225,29,72';
+            const accent = isDark ? '212,168,67' : '138,100,20';
             return (
               <motion.button
                 key={g}
@@ -479,16 +494,16 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
                   flex: 1,
                   padding: '11px',
                   borderRadius: '2px',
-                  fontSize: '13px',
+                  fontSize: '16px',
                   fontWeight: 500,
                   border: `1px solid ${active ? `rgba(${accent},0.6)` : inputBorder}`,
                   background: active ? `rgba(${accent},0.08)` : inputBg,
-                  color: active ? `rgba(${accent},0.9)` : (isDark ? 'rgba(190,205,225,0.7)' : 'rgba(100,80,40,0.4)'),
+                  color: active ? `rgba(${accent},0.9)` : (isDark ? 'rgba(190,205,225,0.7)' : 'rgba(60,50,30,0.7)'),
                   transition: 'all 0.2s',
                   cursor: 'pointer',
                 }}
               >
-                {isMale ? '♂ 男' : '♀ 女'}
+                {isMale ? '男' : '女'}
               </motion.button>
             );
           })}
@@ -513,7 +528,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
               alignItems: 'center',
               gap: '8px',
             }}>
-              <span style={{ fontSize: '12px', color: summaryClr }}>✓</span>
+              
               <span style={{ fontSize: '14px', color: summaryClr, letterSpacing: '0.03em', flex: 1 }}>
                 {summaryText}
               </span>
@@ -532,7 +547,7 @@ export default function BirthForm({ onSubmit, loading, initialData, onFormSave, 
           width: '100%',
           padding: '14px',
           borderRadius: '2px',
-          fontSize: '13px',
+          fontSize: '17px',
           fontWeight: 600,
           letterSpacing: '0.04em',
           border: 'none',

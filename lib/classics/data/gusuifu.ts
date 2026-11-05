@@ -27,7 +27,7 @@ export const guSuiFu: Book = {
         {
           id: 'gsf-1-2',
           idx: 2,
-          text: '紫微為君，以左輔右弼為相。天府為臣，以祿存為府庫。天機為善，天梁為蔭，遇之則吉；廉貞為囚，破軍為耗，逢之則兇。',
+          text: '紫微為君，以左輔右弼為相。天府為臣，以祿存為府庫。天機為善，天梁為蔭，遇之則吉；廉貞為囚，破軍為耗，逢之則凶。',
         },
         {
           id: 'gsf-1-3',
@@ -164,7 +164,7 @@ export const guSuiFu: Book = {
     },
     {
       title: '六煞星論',
-      subtitle: '羊陀火鈴空劫之兇',
+      subtitle: '羊陀火鈴空劫之凶',
       paragraphs: [
         {
           id: 'gsf-8-1',

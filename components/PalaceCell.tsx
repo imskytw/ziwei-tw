@@ -40,7 +40,7 @@ const SiHuaBadge = ({
   return (
     <span
       className={clsx(
-        'inline-flex items-center text-[8px] px-1 rounded-full border leading-none py-px font-bold ml-1 flex-shrink-0',
+        'inline-flex items-center text-[10px] px-1 rounded-full border leading-none py-px font-bold ml-1 flex-shrink-0',
         SIHUA_STYLES[siHua],
         overlay && 'border-dashed opacity-80',
         onClick && 'cursor-pointer hover:opacity-100',
@@ -74,7 +74,7 @@ export default function PalaceCell({
       style={{
         minHeight: '90px',
         background: isCurrentDaXian
-          ? 'rgba(147,51,234,0.08)'
+          ? 'rgba(212,168,67,0.09)'
           : isSelected
           ? 'rgba(37,99,235,0.18)'
           : isSanFang
@@ -83,7 +83,7 @@ export default function PalaceCell({
           ? 'rgba(212,168,67,0.04)'
           : 'var(--t-bg)',
         boxShadow: isCurrentDaXian
-          ? 'inset 3px 0 0 rgba(147,51,234,0.5)'
+          ? 'inset 0 0 0 1px rgba(212,168,67,0.6)'
           : isSelected
           ? 'inset 0 0 0 1.5px rgba(37,99,235,0.7)'
           : isSanFang
@@ -94,10 +94,10 @@ export default function PalaceCell({
       {/* 大限年齡 */}
       {daXianAge && (
         <div className={clsx(
-          'absolute top-1 right-1 text-[9px] font-mono tabular-nums',
-          isCurrentDaXian ? 'text-purple-400' : ''
+          'absolute top-1 right-1 text-[11px] tabular-nums',
+          ''
         )}
-          style={!isCurrentDaXian ? { color: 'var(--t-faint)', opacity: 0.75 } : undefined}
+          style={isCurrentDaXian ? { color: 'var(--t-gold)' } : { color: 'var(--t-faint)', opacity: 0.75 }}
         >
           {daXianAge[0]}–{daXianAge[1]}
         </div>
@@ -105,7 +105,7 @@ export default function PalaceCell({
 
       {/* 宮名行 */}
       <div className="flex items-center gap-1 mb-0.5 pr-8">
-        <span className={clsx('text-[10px] font-medium tracking-wide',
+        <span className={clsx('text-[12px] font-medium tracking-wide',
           isMingGong ? 'text-amber-500' : isShenGong ? 'text-sky-500' : ''
         )}
           style={!isMingGong && !isShenGong ? { color: 'var(--t-faint)' } : undefined}
@@ -121,12 +121,12 @@ export default function PalaceCell({
       </div>
 
       {/* 干支 */}
-      <div className="text-[9px] font-mono mb-1" style={{ color: 'var(--t-faint)', opacity: 0.75 }}>{ganzhi}</div>
+      <div className="text-[11px] tabular-nums mb-1" style={{ color: 'var(--t-faint)', opacity: 0.75 }}>{ganzhi}</div>
 
       {/* 主星 */}
       <div className="flex flex-col gap-0.5 flex-1">
         {majorStars.length === 0 && (
-          <span className="text-[10px] italic" style={{ color: 'var(--t-faint)', opacity: 0.6 }}>空宮</span>
+          <span className="text-[12px] italic" style={{ color: 'var(--t-faint)', opacity: 0.6 }}>空宮</span>
         )}
         {majorStars.map((star) => {
           const overlaySiHua = overlayStarSiHua?.[star.name];
@@ -143,7 +143,7 @@ export default function PalaceCell({
                 {star.name}
               </span>
               {star.brightnessRaw && (
-                <span className="star-level ml-0.5 text-[9px] leading-none" title="星曜亮度">{star.brightnessRaw}</span>
+                <span className="star-level ml-0.5 text-[11px] leading-none" title="星曜亮度">{star.brightnessRaw}</span>
               )}
               {star.siHua && <SiHuaBadge siHua={star.siHua} />}
               {overlaySiHua && (
@@ -168,7 +168,7 @@ export default function PalaceCell({
           {luckyStars.map(s => {
             const overlaySiHua = overlayStarSiHua?.[s.name];
             return (
-              <span key={s.name} className="inline-flex items-center text-[10px] star-lucky leading-tight">
+              <span key={s.name} className="inline-flex items-center text-[12px] star-lucky leading-tight">
                 {s.name}
                 {s.siHua && <SiHuaBadge siHua={s.siHua} />}
                 {overlaySiHua && (
@@ -192,7 +192,7 @@ export default function PalaceCell({
       {shaStars.length > 0 && (
         <div className="flex flex-wrap gap-x-1">
           {shaStars.map(s => (
-            <span key={s.name} className="text-[10px] star-sha leading-tight">
+            <span key={s.name} className="text-[12px] star-sha leading-tight">
               {s.name}{s.siHua && <SiHuaBadge siHua={s.siHua} />}
             </span>
           ))}

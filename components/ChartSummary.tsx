@@ -46,7 +46,7 @@ export default function ChartSummary({ chart }: ChartSummaryProps) {
       >
       <div className="card-glass rounded-xl p-5">
         <div className="text-[10px] tracking-widest mb-4 flex items-center gap-2" style={{ color: 'var(--t-faint)' }}>
-          <span style={{ color: 'var(--t-gold)', opacity: 0.6 }}>✦</span>
+          
           命格總覽
         </div>
 
@@ -89,7 +89,7 @@ export default function ChartSummary({ chart }: ChartSummaryProps) {
             <div className="text-[9px] mb-1" style={{ color: 'var(--t-faint)', opacity: 0.85 }}>五行局 · 當前大限</div>
             <div className="text-[11px]" style={{ color: 'var(--t-text2)' }}>{chart.wuxingJuName}</div>
             {currentDx && (
-              <div className="text-[11px] text-purple-500 mt-0.5">
+              <div className="text-[11px] text-amber-500 mt-0.5">
                 {currentDx.startAge}~{currentDx.endAge}歲 · {currentDx.palaceName}
               </div>
             )}
@@ -157,7 +157,7 @@ export default function ChartSummary({ chart }: ChartSummaryProps) {
         >
         <div className="card-glass rounded-xl p-4">
           <div className="text-[10px] tracking-widest mb-3 flex items-center gap-2" style={{ color: 'var(--t-faint)' }}>
-            <span style={{ color: 'var(--t-gold)', opacity: 0.6 }}>◉</span>
+            
             格局識別
             <span className="text-[9px] ml-auto" style={{ color: 'var(--t-faint)', opacity: 0.75 }}>{patterns.length}個格局</span>
           </div>
@@ -234,7 +234,7 @@ export default function ChartSummary({ chart }: ChartSummaryProps) {
       >
       <div className="card-glass rounded-xl p-4">
         <div className="text-[10px] tracking-widest mb-3 flex items-center gap-2" style={{ color: 'var(--t-faint)' }}>
-          <span className="text-purple-500/60">◎</span>
+          <span className="text-amber-500/60">◎</span>
           大限運程
         </div>
         <div className="grid grid-cols-3 gap-2">

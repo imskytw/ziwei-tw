@@ -107,4 +107,4 @@ if (bad) {
   console.error(`\n❌ ${bad} 項不符 —— 閏月歸屬 policy 校驗或口徑與定義不一致，會導致整盤錯位。`);
   process.exit(1);
 }
-console.log('\n✅ 全部透過：無效 policy 當場拒絕，四口徑互異且與定義一致。');
+console.log('\n✅ 全部通過：無效 policy 當場拒絕，四口徑互異且與定義一致。');

@@ -52,7 +52,6 @@ export default function QuotesBrowser({ quotes, books }: { quotes: Quote[]; book
   return (
     <main className="content-page">
       <div className="content-hero">
-        <p className="eyebrow">天紀 · 紫微斗數</p>
         <h1>倪師原話</h1>
         <p className="lede">倪海廈先生《天紀》課程裡講紫微斗數的原話，共 {quotes.length.toLocaleString()} 條。每條都附影片時間，點一下就能回到原影片的那一秒核對。</p>
       </div>

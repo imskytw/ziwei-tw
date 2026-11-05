@@ -22,7 +22,7 @@ export default function PatternsCard({ chart }: { chart: ZiweiChart }) {
       className="card-glass rounded-xl p-4 mb-4"
     >
       <div className="text-[10px] tracking-widest mb-3 flex items-center gap-2" style={{ color: 'var(--t-faint)' }}>
-        <span style={{ color: 'var(--t-gold)', opacity: 0.6 }}>◉</span>
+        
         格局識別（嚴格古書條件）
         <span className="text-[9px] ml-auto" style={{ color: 'var(--t-faint)', opacity: 0.75 }}>{patterns.length}個</span>
       </div>

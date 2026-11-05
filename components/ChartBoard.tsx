@@ -150,33 +150,29 @@ export default function ChartBoard({ chart, onStarSelect, onPalaceSelect, onSiHu
           className="flex flex-col items-center justify-center p-4 gap-3"
           style={{ gridRow: '2 / 4', gridColumn: '2 / 4', background: 'var(--t-bg)' }}
         >
-          <div className="text-5xl select-none leading-none" style={{ color: 'var(--t-gold)', opacity: 0.12, filter: 'drop-shadow(0 0 12px rgba(180,120,30,0.15))' }}>
-            ☯
-          </div>
-
           <div className="text-center space-y-1">
-            <div className="text-[12px] font-medium" style={{ color: 'var(--t-gold)' }}>紫微斗數</div>
-            <div className="text-[10px] space-y-0.5" style={{ color: 'var(--t-faint)' }}>
+            <div className="text-[15px] font-semibold" style={{ color: 'var(--t-gold)' }}>紫微斗數</div>
+            <div className="text-[12px] space-y-0.5" style={{ color: 'var(--t-faint)' }}>
               <div>命宮 <span style={{ color: 'var(--t-gold)', opacity: 0.7 }}>{BRANCHES[chart.mingGongBranch]}</span></div>
               <div>身宮 <span className="text-sky-500/70">{BRANCHES[chart.shenGongBranch]}</span></div>
-              <div className="text-[9px]" style={{ color: 'var(--t-gold)', opacity: 0.75 }}>{chart.wuxingJuName}</div>
+              <div className="text-[11px]" style={{ color: 'var(--t-gold)', opacity: 0.75 }}>{chart.wuxingJuName}</div>
             </div>
           </div>
 
           {chart.currentDaXianIndex >= 0 && (() => {
             const dx = chart.daXians[chart.currentDaXianIndex];
             return (
-              <div className="border border-purple-500/30 rounded-lg px-3 py-1.5 text-center"
-                style={{ background: 'rgba(147,51,234,0.06)' }}>
-                <div className="text-[8px] text-purple-500/80 mb-0.5 tracking-wider">當前大限</div>
-                <div className="text-[12px] text-purple-400 font-medium tabular-nums">{dx.startAge}–{dx.endAge}歲</div>
-                <div className="text-[9px] text-purple-500/60">{dx.palaceName}</div>
+              <div className="rounded-lg px-3 py-1.5 text-center"
+                style={{ background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.35)' }}>
+                <div className="text-[11px] mb-0.5 tracking-wider" style={{ color: 'var(--t-gold)', opacity: 0.8 }}>當前大限</div>
+                <div className="text-[12px] font-medium tabular-nums" style={{ color: 'var(--t-gold)' }}>{dx.startAge}–{dx.endAge}歲</div>
+                <div className="text-[11px]" style={{ color: 'var(--t-gold)', opacity: 0.65 }}>{dx.palaceName}</div>
               </div>
             );
           })()}
 
-          <div className="text-[8px] text-center leading-relaxed font-mono" style={{ color: 'var(--t-faint)', opacity: 0.75 }}>
-            {chart.lunarInfo.lunarYear}·{chart.lunarInfo.isLeapMonth ? '閏' : ''}
+          <div className="text-[11px] text-center leading-relaxed" style={{ color: 'var(--t-faint)', opacity: 0.75 }}>
+            農曆 {chart.lunarInfo.lunarYear}·{chart.lunarInfo.isLeapMonth ? '閏' : ''}
             {chart.lunarInfo.lunarMonth}·{chart.lunarInfo.lunarDay}
           </div>
         </motion.div>
@@ -263,7 +259,7 @@ export default function ChartBoard({ chart, onStarSelect, onPalaceSelect, onSiHu
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7 }}
-        className="mt-3 flex items-center justify-center gap-2 text-[9px] flex-wrap"
+        className="mt-3 flex items-center justify-center gap-2 text-[11px] flex-wrap"
       >
         {[
           { h: '化祿', c: 'text-emerald-500 border-emerald-500/30' },

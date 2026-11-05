@@ -39,14 +39,14 @@ export default async function ChapterPage({ params }: { params: Promise<{ book: 
       <article className="max-w-3xl mx-auto px-6 py-12">
         {/* 標題 */}
         <div className="text-center mb-10">
-          <div style={{ fontSize: '11px', color: 'var(--tx-3)', letterSpacing: '0.25em', marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', color: 'var(--tx-3)', letterSpacing: '0.06em', marginBottom: '8px' }}>
             《{book.title}》· {book.dynasty}
           </div>
-          <h1 style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 700, color: 'var(--tx-0)', letterSpacing: '0.15em', marginBottom: '8px' }}>
+          <h1 style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 700, color: 'var(--tx-0)', letterSpacing: '0.04em', marginBottom: '8px' }}>
             {chapter.title}
           </h1>
           {chapter.subtitle && (
-            <div style={{ fontSize: '13px', color: 'var(--tx-2)', letterSpacing: '0.1em' }}>
+            <div style={{ fontSize: '15px', color: 'var(--tx-2)', letterSpacing: '0.03em' }}>
               {chapter.subtitle}
             </div>
           )}
@@ -61,7 +61,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ book: 
               style={{
                 marginBottom: i === chapter.paragraphs.length - 1 ? 0 : '20px',
                 paddingBottom: i === chapter.paragraphs.length - 1 ? 0 : '20px',
-                borderBottom: i === chapter.paragraphs.length - 1 ? 'none' : '1px dashed rgba(184,146,42,0.15)',
+                
                 scrollMarginTop: '80px',
               }}
             >
@@ -70,22 +70,14 @@ export default async function ChapterPage({ params }: { params: Promise<{ book: 
                 alignItems: 'baseline',
                 gap: '12px',
               }}>
-                <span style={{
-                  fontSize: '11px',
-                  color: 'var(--ac)',
-                  fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  minWidth: '24px',
-                }}>
-                  {String(p.idx).padStart(2, '0')}
-                </span>
                 <p style={{
                   flex: 1,
-                  fontSize: '16px',
+                  fontSize: '18px',
                   color: 'var(--tx-0)',
                   lineHeight: 2,
-                  letterSpacing: '0.04em',
-                  fontFamily: '"PingFang TC", "Noto Serif TC", "Songti TC", serif',
+                  letterSpacing: '0.02em',
+                  maxWidth: '36em',
+                  fontFamily: 'var(--serif)',
                 }}>
                   {p.text}
                 </p>
@@ -93,30 +85,30 @@ export default async function ChapterPage({ params }: { params: Promise<{ book: 
               {p.translation && (
                 <div style={{
                   marginTop: '8px',
-                  marginLeft: '36px',
+                  marginLeft: 0,
                   padding: '8px 12px',
                   background: 'rgba(184,146,42,0.05)',
                   borderRadius: '6px',
-                  fontSize: '13px',
+                  fontSize: '15px',
                   color: 'var(--tx-2)',
                   lineHeight: 1.8,
                 }}>
-                  <span style={{ fontSize: '10px', color: 'var(--ac)', marginRight: '6px' }}>白話</span>
+                  <span style={{ fontSize: '14px', color: 'var(--ac)', marginRight: '6px' }}>白話</span>
                   {p.translation}
                 </div>
               )}
               {p.niNote && (
                 <div style={{
                   marginTop: '8px',
-                  marginLeft: '36px',
+                  marginLeft: 0,
                   padding: '8px 12px',
                   background: 'rgba(196,90,45,0.05)',
                   borderRadius: '6px',
-                  fontSize: '13px',
+                  fontSize: '15px',
                   color: 'var(--tx-2)',
                   lineHeight: 1.8,
                 }}>
-                  <span style={{ fontSize: '10px', color: 'var(--ji)', marginRight: '6px' }}>倪師注</span>
+                  <span style={{ fontSize: '14px', color: 'var(--ji)', marginRight: '6px' }}>倪師注</span>
                   {p.niNote}
                 </div>
               )}
@@ -139,8 +131,8 @@ export default async function ChapterPage({ params }: { params: Promise<{ book: 
                 color: 'var(--tx-0)',
               }}
             >
-              <div style={{ fontSize: '10px', color: 'var(--tx-3)', letterSpacing: '0.02em', marginBottom: '2px' }}>← 上一章</div>
-              <div style={{ fontSize: '13px', fontWeight: 500 }}>{book.chapters[prevIdx].title}</div>
+              <div style={{ fontSize: '14px', color: 'var(--tx-3)', letterSpacing: '0.02em', marginBottom: '2px' }}>← 上一章</div>
+              <div style={{ fontSize: '15px', fontWeight: 500 }}>{book.chapters[prevIdx].title}</div>
             </Link>
           ) : <div style={{ flex: 1 }} />}
           {nextIdx < book.chapters.length ? (
@@ -157,8 +149,8 @@ export default async function ChapterPage({ params }: { params: Promise<{ book: 
                 textAlign: 'right',
               }}
             >
-              <div style={{ fontSize: '10px', color: 'var(--tx-3)', letterSpacing: '0.02em', marginBottom: '2px' }}>下一章 →</div>
-              <div style={{ fontSize: '13px', fontWeight: 500 }}>{book.chapters[nextIdx].title}</div>
+              <div style={{ fontSize: '14px', color: 'var(--tx-3)', letterSpacing: '0.02em', marginBottom: '2px' }}>下一章 →</div>
+              <div style={{ fontSize: '15px', fontWeight: 500 }}>{book.chapters[nextIdx].title}</div>
             </Link>
           ) : <div style={{ flex: 1 }} />}
         </div>

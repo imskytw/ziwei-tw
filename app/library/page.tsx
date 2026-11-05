@@ -48,18 +48,18 @@ export default function LibraryHomePage() {
                 transition: 'all 0.2s',
                 boxShadow: '0 2px 8px rgba(184,146,42,0.06)',
               }}
-              className="hover:shadow-lg"
+              className="lib-row"
             >
-              <div style={{ fontSize: '11px', color: 'var(--tx-3)', letterSpacing: '0.02em', marginBottom: '6px' }}>
+              <div style={{ fontSize: '14px', color: 'var(--tx-3)', letterSpacing: '0.02em', marginBottom: '6px' }}>
                 {book.dynasty} · {book.author.split(' ')[0]}
               </div>
-              <div style={{ fontSize: '20px', fontWeight: 600, color: 'var(--tx-0)', marginBottom: '10px', letterSpacing: '0.1em' }}>
+              <div style={{ fontSize: '20px', fontWeight: 600, color: 'var(--tx-0)', marginBottom: '10px', letterSpacing: '0.03em' }}>
                 《{book.title}》
               </div>
-              <div style={{ fontSize: '12px', color: 'var(--tx-2)', lineHeight: 1.7, marginBottom: '14px' }}>
+              <div style={{ fontSize: '15px', color: 'var(--tx-2)', lineHeight: 1.7, marginBottom: '14px' }}>
                 {book.intro}
               </div>
-              <div style={{ display: 'flex', gap: '12px', fontSize: '11px', color: 'var(--tx-3)' }}>
+              <div style={{ display: 'flex', gap: '12px', fontSize: '14px', color: 'var(--tx-3)' }}>
                 <span>{book.chapters.length} 章節</span>
                 <span style={{ color: 'rgba(184,146,42,0.4)' }}>·</span>
                 <span>{book.chapters.reduce((s, c) => s + c.paragraphs.length, 0)} 段精華</span>
@@ -67,9 +67,9 @@ export default function LibraryHomePage() {
               <div style={{
                 display: 'inline-flex',
                 marginTop: '14px',
-                fontSize: '11px',
+                fontSize: '14px',
                 color: 'var(--ac)',
-                letterSpacing: '0.15em',
+                letterSpacing: '0.04em',
                 fontWeight: 500,
               }}>
                 進入查閱 →
@@ -80,10 +80,10 @@ export default function LibraryHomePage() {
 
         {/* 底部說明 */}
         <div style={{ marginTop: '60px', padding: '24px', background: 'rgba(184,146,42,0.05)', borderRadius: '10px', textAlign: 'center' }}>
-          <div style={{ fontSize: '11px', color: 'var(--ac-dim)', fontWeight: 600, letterSpacing: '0.15em', marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', color: 'var(--ac-dim)', fontWeight: 600, letterSpacing: '0.04em', marginBottom: '8px' }}>
             關於本庫
           </div>
-          <div style={{ fontSize: '12px', color: 'var(--tx-2)', lineHeight: 1.8, maxWidth: '600px', margin: '0 auto' }}>
+          <div style={{ fontSize: '15px', color: 'var(--tx-2)', lineHeight: 1.8, maxWidth: '600px', margin: '0 auto' }}>
             所收錄古籍均為公版（明代刊本）。<br />
             內容持續完善，未來將補全《紫微斗數全集》全本與倪海廈《天紀》引證目錄。<br />
             如發現任何錯誤請聯絡我們。

@@ -383,7 +383,7 @@ function detectWuQiSha(chart: ZiweiChart, patterns: Pattern[]) {
   patterns.push({
     name: '武曲七殺',
     level: breaking.length ? 'caution' : (inMing ? 'excellent' : 'good'),
-    description: '武曲七殺同宮，將星配財星，主果決剛毅、理財能力強，適合金融、軍警、創業。但忌見化忌煞星，否則兇險。一生奮鬥、積財但操心。',
+    description: '武曲七殺同宮，將星配財星，主果決剛毅、理財能力強，適合金融、軍警、創業。但忌見化忌煞星，否則凶險。一生奮鬥、積財但操心。',
     palaces: [wu.name],
     conditions: { required, bonus, breaking },
     source: '《紫微斗數全書》',

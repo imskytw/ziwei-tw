@@ -125,7 +125,7 @@ export default function TimeNav({
               ‹
             </button>
             <span
-              className="text-[10px] font-mono min-w-[28px] text-center cursor-pointer"
+              className="text-[13px] tabular-nums min-w-[36px] text-center cursor-pointer"
               style={{ color: view === 'liunian' ? 'var(--t-gold)' : 'var(--t-faint)' }}
               onClick={() => onViewChange('liunian')}
             >

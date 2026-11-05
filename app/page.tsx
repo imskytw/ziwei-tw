@@ -93,7 +93,7 @@ export default function HomePage() {
       {/* ── 一套免費的紫微斗數 ── */}
       <section className="sec intro" aria-labelledby="intro-title">
         <div className="intro__row" data-reveal>
-          <h2 id="intro-title">一套免費的紫微斗數</h2>
+          <h2 id="intro-title"><span className="nw">一套免費的</span><span className="nw">紫微斗數</span></h2>
           <p>原專案開源了排盤引擎與斷語數據集。這個版本把它轉成繁體中文，補上台灣的夏令時間與鄉鎮經度，並讓你自己選要串接哪一家 AI。</p>
         </div>
         <div className="facts" data-reveal>
@@ -107,12 +107,12 @@ export default function HomePage() {
       {/* ── 夏令時間 ── */}
       <section className="sec compare" aria-labelledby="dst-title">
         <div className="compare__head" data-reveal>
-          <h2 id="dst-title">差一小時，差一個時辰</h2>
+          <h2 id="dst-title"><span className="nw">差一小時，</span><span className="nw">差一個時辰</span></h2>
           <p>台灣在 1945 到 1979 年間，有好幾段時間實施夏令時間，鐘錶比標準時間快一小時。紫微斗數兩小時一個時辰，出生在時辰交界的人，命宮、身宮和大限都會整個換掉。</p>
         </div>
         <div className="compare__specimens" aria-hidden="true">
-          <figure><div className="big">14:00</div><figcaption>出生證明上的鐘錶時間，未時</figcaption></figure>
-          <figure><div className="big">13:00</div><figcaption>排盤要用的標準時間，午時</figcaption></figure>
+          <figure><div className="big">13:30</div><figcaption>出生證明上的鐘錶時間，未時</figcaption></figure>
+          <figure><div className="big">12:30</div><figcaption>排盤要用的標準時間，午時</figcaption></figure>
         </div>
         <DstChecker />
       </section>
@@ -188,10 +188,10 @@ export default function HomePage() {
       {/* ── 安裝 ── */}
       <section className="sec" aria-labelledby="install-title">
         <div className="stairs">
-          <div data-reveal><h2 id="install-title" className="line">先裝好 Node.js。</h2><p>到 nodejs.org 下載 LTS 版本，像一般軟體一樣安裝。</p></div>
-          <div data-reveal><p className="line">再下載這個專案。</p><p>在 GitHub 按 Code，選 Download ZIP，解壓縮到任何資料夾。</p></div>
+          <div data-reveal><h2 id="install-title" className="line">先裝好 Node.js。</h2><p>到 nodejs.org 下載 LTS（長期支援）版本，像一般軟體一樣安裝。</p></div>
+          <div data-reveal><p className="line"><span className="nw">再下載</span><span className="nw">這個專案。</span></p><p>在 GitHub 按 Code，選 Download ZIP，解壓縮到任何資料夾。</p></div>
           <div data-reveal><p className="line">雙擊啟動檔。</p><p>Mac 用「啟動紫微斗數.command」，Windows 用「啟動紫微斗數.bat」。第一次會自動安裝。</p></div>
-          <div data-reveal><p className="line">選一家 AI，或跳過。</p><p>設定精靈會一步一步問你。不用 AI 也能排盤、看斷語。{REPO_URL ? <> 完整教學見 <a href={REPO_URL}>GitHub</a>。</> : ' 完整教學在專案的 README。'}</p></div>
+          <div data-reveal><p className="line"><span className="nw">選一家 AI，</span><span className="nw">或跳過。</span></p><p>設定精靈會一步一步問你。不用 AI 也能排盤、看斷語。{REPO_URL ? <> 完整教學見 <a href={REPO_URL}>GitHub</a>。</> : ' 完整教學在專案的 README。'}</p></div>
         </div>
       </section>
 
@@ -204,7 +204,7 @@ export default function HomePage() {
         </div>
         <div className="cta__band">
           <div data-reveal>
-            <h2 id="cta-title">你的十二宮，早就在星圖上。<Link href="/chart">現在排一張命盤</Link>。</h2>
+            <h2 id="cta-title"><span className="nw">你的十二宮，</span><span className="nw">早就在星圖上。</span><span className="nw"><Link href="/chart">現在排一張命盤</Link>。</span></h2>
             <p>排盤在你的瀏覽器裡完成，生日不會上傳到任何資料庫。所有內容僅供文化研究與自我探索參考，不構成醫療、投資或法律建議。</p>
           </div>
         </div>

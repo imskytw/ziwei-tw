@@ -84,7 +84,7 @@ export default function ReadingPanel({ chart, selectedPalace }: { chart: ZiweiCh
               className="flex-1 rounded-lg py-2 transition-colors duration-200"
               style={{ background: on ? 'var(--t-card-strong)' : 'transparent', color: on ? 'var(--t-gold)' : 'var(--t-faint)', boxShadow: on ? 'var(--sh-xs)' : 'none' }}>
               <div className="text-[13px] font-semibold tracking-wide">{label}</div>
-              <div className="text-[10px] opacity-70 mt-0.5">{sub}</div>
+              <div className="text-[13px] opacity-70 mt-0.5">{sub}</div>
             </button>
           );
         })}
@@ -103,7 +103,7 @@ export default function ReadingPanel({ chart, selectedPalace }: { chart: ZiweiCh
                 const on = topic === t.key;
                 return (
                   <button key={t.key} onClick={() => setTopic(t.key)}
-                    className="px-2.5 py-1 rounded-full text-[12px] transition-all duration-150 active:scale-[0.97]"
+                    className="px-3.5 min-h-[40px] rounded-full text-[15px] transition-colors duration-150 active:scale-[0.97]"
                     style={{
                       background: on ? 'var(--ac-bg)' : 'transparent',
                       border: `1px solid ${on ? 'var(--t-border-acc)' : 'var(--t-border)'}`,
@@ -117,16 +117,16 @@ export default function ReadingPanel({ chart, selectedPalace }: { chart: ZiweiCh
           </div>
 
           {/* 內容 */}
-          <div className="flex-1 overflow-y-auto min-h-0 px-4 py-4" style={{ maxHeight: 640 }}>
+          <div className="flex-1 overflow-y-auto min-h-0 px-5 py-6 sm:px-8" style={{ maxHeight: 780 }}>
             {state.kind === 'loading' && (
               <div className="py-10 text-center">
                 <div className="mx-auto mb-4 h-1 w-32 overflow-hidden rounded-full" style={{ background: 'var(--t-border)' }}>
                   <motion.div className="h-full w-1/3 rounded-full" style={{ background: 'var(--t-gold)' }}
                     animate={{ x: ['-100%', '300%'] }} transition={{ repeat: Infinity, duration: 1.2, ease: 'easeInOut' }} />
                 </div>
-                <p className="text-[12px]" style={{ color: 'var(--t-faint)' }}>正在查斷語庫…</p>
+                <p className="text-[15px]" style={{ color: 'var(--t-faint)' }}>正在查斷語庫…</p>
                 {slow && (
-                  <p className="text-[11px] mt-2 leading-relaxed" style={{ color: 'var(--t-faint)', opacity: 0.8 }}>
+                  <p className="text-[14px] mt-2 leading-relaxed" style={{ color: 'var(--t-faint)', opacity: 0.8 }}>
                     第一次查 {b.year} 年出生的盤，需要下載約 2 MB 的資料並整理，<br />大約 5–10 秒，之後就會秒開。
                   </p>
                 )}
@@ -136,7 +136,7 @@ export default function ReadingPanel({ chart, selectedPalace }: { chart: ZiweiCh
               <div className="py-8 text-center">
                 <p className="text-[13px] leading-relaxed" style={{ color: state.kind === 'error' ? '#f87171' : 'var(--t-text2)' }}>{state.message}</p>
                 <button onClick={() => { setAiPrompt(undefined); setAiKey(k => k + 1); setTab('ai'); }}
-                  className="mt-4 text-[12px] px-4 py-1.5 rounded-full" style={{ border: '1px solid var(--t-border-acc)', color: 'var(--t-gold)' }}>
+                  className="mt-4 text-[15px] px-5 min-h-[44px] rounded-full" style={{ border: '1px solid var(--t-border-acc)', color: 'var(--t-gold)' }}>
                   改用 AI 解讀
                 </button>
               </div>
@@ -144,7 +144,7 @@ export default function ReadingPanel({ chart, selectedPalace }: { chart: ZiweiCh
             <AnimatePresence mode="wait">
               {state.kind === 'ok' && (
                 <motion.div key={topic} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}>
-                  {text ? <AiContent text={text} size="md" /> : <p className="text-[12px]" style={{ color: 'var(--t-faint)' }}>這個面向沒有內容。</p>}
+                  {text ? <AiContent text={text} size="md" /> : <p className="text-[15px]" style={{ color: 'var(--t-faint)' }}>這個面向沒有內容。</p>}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -152,13 +152,13 @@ export default function ReadingPanel({ chart, selectedPalace }: { chart: ZiweiCh
 
           {/* 底部 */}
           <div className="flex-shrink-0 px-3 py-2.5 flex items-center gap-2" style={{ borderTop: '1px solid var(--t-border)' }}>
-            <p className="flex-1 text-[10px] leading-snug" style={{ color: 'var(--t-faint)' }}>
+            <p className="flex-1 text-[13px] leading-snug" style={{ color: 'var(--t-faint)' }}>
               內容來自<a href="https://github.com/Renhuai123/ziwei-doushu/releases/tag/v4.0-13d" target="_blank" rel="noreferrer" className="underline underline-offset-2">紫微斗數開源解讀數據集 v4.0</a>（王多魚AI，CC BY 4.0），已轉為繁體
             </p>
             {state.kind === 'ok' && (
-              <button onClick={askAi} className="flex-shrink-0 text-[12px] px-3 py-1.5 rounded-full transition-transform active:scale-[0.97]"
+              <button onClick={askAi} className="flex-shrink-0 text-[15px] px-4 min-h-[44px] rounded-full transition-transform active:scale-[0.97]"
                 style={{ background: 'var(--ac-bg)', border: '1px solid var(--t-border-acc)', color: 'var(--t-gold)' }}>
-                ✦ 請 AI 深入解讀
+                請 AI 深入解讀
               </button>
             )}
           </div>

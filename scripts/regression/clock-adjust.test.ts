@@ -42,4 +42,4 @@ const ny = calculateTrueSolarTime({ year: 1995, month: 1, day: 15, clockHour: 14
 ok('紐約經度修正 +4 分鐘', Math.abs(ny.longitudeCorrectionMinutes - 4) < 1e-9);
 
 if (fails) { console.error(`\n✗ 鐘錶時間平移回歸 ${fails} 項未過`); process.exit(1); }
-console.log('\n✓ 鐘錶時間平移回歸全部透過');
+console.log('\n✓ 鐘錶時間平移回歸全部通過');
