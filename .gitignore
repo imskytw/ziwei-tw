@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.vercel/
+.env*
+!.env.example
+dist/
+*.tsbuildinfo
+.DS_Store
+node_modules
+
+# 解讀數據集下載快取
+/data/
+
+# 設計檢測暫存
+/.taste-skill/
+__pycache__/
+*.pyc

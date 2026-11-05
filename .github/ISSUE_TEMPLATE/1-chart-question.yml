@@ -1,0 +1,65 @@
+name: 排盤結果疑問 / Chart result question
+description: 覺得某張盤排得不對？請附上出生資訊和對照結果，我們才能逐項核。
+title: "[排盤疑問] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        只寫「不準」我們沒法查。請按下面填完整，我們會逐項對照。
+        先看一眼：輔星亮度、閏月歸屬、晚子時是否換日在各流派本來就不同，這類差異不算 bug，但仍歡迎指出。
+  - type: input
+    id: date
+    attributes:
+      label: 出生日期（公曆）
+      placeholder: 例：1990-05-12
+    validations:
+      required: true
+  - type: input
+    id: time
+    attributes:
+      label: 出生時間（幾點幾分）
+      placeholder: 例：08:30
+    validations:
+      required: true
+  - type: input
+    id: place
+    attributes:
+      label: 出生地或經度
+      description: 用來換算真太陽時；東西向經度差最多能差出一個時辰。
+      placeholder: 例：浙江杭州 / 東經 120.2°
+  - type: dropdown
+    id: gender
+    attributes:
+      label: 性別
+      options: ["男", "女"]
+    validations:
+      required: true
+  - type: textarea
+    id: ours
+    attributes:
+      label: 本專案排出的結果
+      description: 截圖，或貼出 generateChart 輸出裡相關的那幾項。
+    validations:
+      required: true
+  - type: input
+    id: ref
+    attributes:
+      label: 拿什麼對照
+      placeholder: 例：其它排盤軟體 / 某本書第幾頁
+    validations:
+      required: true
+  - type: textarea
+    id: theirs
+    attributes:
+      label: 對照結果
+      description: 截圖或文字。
+    validations:
+      required: true
+  - type: textarea
+    id: diff
+    attributes:
+      label: 具體哪一項不一致
+      placeholder: 例：命宮應在卯，這裡排在戌
+    validations:
+      required: true
