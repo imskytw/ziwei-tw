@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: 型別檢查與排盤測試
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 專案已包含 package-lock.json：依鎖定版本安裝，並啟用 npm 快取
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: 安裝套件
+        run: npm ci --no-audit --no-fund
+
+      - name: 型別檢查
+        run: npm run typecheck
+
+      - name: 排盤引擎回歸測試
+        run: npm test
