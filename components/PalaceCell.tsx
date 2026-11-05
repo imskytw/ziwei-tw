@@ -94,7 +94,7 @@ export default function PalaceCell({
       {/* 大限年齡 */}
       {daXianAge && (
         <div className={clsx(
-          'absolute top-1 right-1 text-[11px] tabular-nums',
+          'absolute top-1 right-1 max-sm:top-[1.55rem] text-[11px] tabular-nums',
           ''
         )}
           style={isCurrentDaXian ? { color: 'var(--t-gold)' } : { color: 'var(--t-faint)', opacity: 0.75 }}
@@ -104,7 +104,7 @@ export default function PalaceCell({
       )}
 
       {/* 宮名行 */}
-      <div className="flex items-center gap-1 mb-0.5 pr-8">
+      <div className="flex items-center gap-1 mb-0.5 sm:pr-12">
         <span className={clsx('text-[12px] font-medium tracking-wide',
           isMingGong ? 'text-amber-500' : isShenGong ? 'text-sky-500' : ''
         )}
@@ -113,10 +113,10 @@ export default function PalaceCell({
           {name}
         </span>
         {isMingGong && (
-          <span className="text-[7px] text-amber-500/80 border border-amber-500/30 px-0.5 rounded leading-tight">命</span>
+          <span className="text-[9px] text-amber-500/80 border border-amber-500/30 px-0.5 rounded leading-tight">命</span>
         )}
         {isShenGong && (
-          <span className="text-[7px] text-sky-500/80 border border-sky-500/30 px-0.5 rounded leading-tight">身</span>
+          <span className="text-[9px] text-sky-500/80 border border-sky-500/30 px-0.5 rounded leading-tight">身</span>
         )}
       </div>
 
