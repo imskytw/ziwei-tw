@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Wang XingShu';
+  src: url('/fonts/wanghanzong-xingshu.woff2') format('woff2');
+  font-weight: 400 900;
+  font-display: swap;
+  /* 只含中文字；英文字母與數字交給芫荽 */
+  unicode-range: U+2000-FFFF;
+}
+
 /* ════════════════════════════════════════════════════════════════
    繁體改作版設計系統 —「印刷年報」方向，深藍金色兩色印刷
    一套字型（思源宋體），一個強調色（金），一組頁邊，方角。
@@ -18,7 +27,9 @@
   --gold-field: #e2c07a;
   --gold-field-ink: #0b1528;
 
-  --serif: 'Noto Serif TC', 'Songti TC', 'PMingLiU', serif;
+  --serif: 'Iansui', 'Kaiti TC', 'BiauKai', 'DFKai-SB', serif;
+  /* 標題用行書；缺字時退回芫荽 */
+  --display: 'Wang XingShu', 'Iansui', 'Kaiti TC', serif;
   --sans: -apple-system, 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
 
   --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
@@ -193,7 +204,7 @@ input, textarea { caret-color: var(--accent); }
 .hero__nav button { color: var(--muted); background: none; border: 0; font: inherit; font-size: var(--step-body); cursor: pointer; padding: 0; margin-left: auto; }
 .hero__title {
   margin-top: 4svh;
-  font-weight: 900; font-size: var(--step-display); line-height: 0.92; letter-spacing: -0.03em;
+  font-weight: 700; font-size: var(--step-display); line-height: 0.92; letter-spacing: 0;
 }
 .hero__title .line { display: block; overflow: hidden; padding-bottom: 0.06em; }
 .hero__title .line > span { display: block; }
@@ -209,9 +220,9 @@ input, textarea { caret-color: var(--accent); }
 .hero__badge {
   position: absolute; z-index: 2; top: calc(68svh - 58px);
   left: calc(var(--margin) + (100% - 2 * var(--margin)) * 0.34);
-  width: 260px; padding: 18px 20px; background: var(--gold-field); color: var(--gold-field-ink);
+  width: 300px; padding: 18px 20px; background: var(--gold-field); color: var(--gold-field-ink);
 }
-.hero__badge strong { display: block; font-size: var(--step-head); line-height: 1; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.hero__badge strong { display: block; font-size: clamp(2rem, 1.2rem + 2.6vw, 3.5rem); line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0; }
 .hero__badge span { display: block; margin-top: 8px; font-size: var(--step-small); line-height: 1.5; }
 
 @media (max-width: 820px) {
@@ -233,7 +244,7 @@ input, textarea { caret-color: var(--accent); }
 
 /* 通用區塊 */
 .sec { padding: var(--section-gap) var(--margin) 0; }
-.sec h2 { font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; }
+.sec h2 { font-weight: 700; letter-spacing: 0; line-height: 1.05; }
 
 /* intro：標題、說明、數字列 */
 .intro__row { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: end; }
@@ -261,7 +272,7 @@ input, textarea { caret-color: var(--accent); }
 .compare__specimens figure { margin: 0; min-width: 0; }
 .compare__specimens figcaption { font-size: var(--step-body); color: var(--muted); margin-top: 18px; }
 .compare__specimens .big {
-  font-weight: 900; font-size: clamp(96px, 14.5vw, 240px); line-height: 0.82; letter-spacing: -0.035em;
+  font-weight: 700; font-size: clamp(96px, 14.5vw, 240px); line-height: 0.82; letter-spacing: 0;
   font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 .compare__specimens figure:last-child .big { color: var(--accent); }
@@ -292,7 +303,7 @@ input, textarea { caret-color: var(--accent); }
 .features { margin-top: var(--section-gap); background: var(--field); color: var(--field-ink); padding: 120px var(--margin); }
 .features__grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; }
 .features__title { grid-column: 1 / 6; }
-.features__title h2 { position: sticky; top: 96px; font-weight: 900; font-size: var(--step-display); line-height: 0.95; }
+.features__title h2 { position: sticky; top: 96px; font-weight: 700; font-size: var(--step-display); line-height: 0.95; }
 .features__blocks { grid-column: 7 / 13; display: flex; flex-direction: column; gap: 120px; }
 .feature h3 { font-size: var(--step-lead); font-weight: 700; line-height: 1.2; margin-bottom: 24px; }
 .feature__row { display: flex; gap: 28px; align-items: flex-start; }
@@ -349,7 +360,7 @@ input, textarea { caret-color: var(--accent); }
 .stairs > div:nth-child(2) { grid-column: 3 / 13; }
 .stairs > div:nth-child(3) { grid-column: 5 / 13; }
 .stairs > div:nth-child(4) { grid-column: 7 / 13; }
-.stairs .line { font-weight: 700; font-size: var(--step-head); line-height: 1.05; letter-spacing: -0.02em; }
+.stairs .line { font-weight: 700; font-size: var(--step-head); line-height: 1.05; letter-spacing: 0; }
 .stairs > div:nth-child(4) .line { color: var(--accent); }
 .stairs p { margin-top: 12px; max-width: 34ch; color: var(--muted); }
 .stairs p a { color: var(--ink); }
@@ -410,7 +421,7 @@ input, textarea { caret-color: var(--accent); }
 /* ════════ 內容頁（百科、倪師原話）════════ */
 .content-page { padding: 0 var(--margin) 120px; max-width: 1440px; margin: 0 auto; }
 .content-hero { display: grid; grid-template-columns: var(--axis) 1fr; padding: 72px 0 56px; gap: 24px; }
-.content-hero h1 { grid-column: 2; font-weight: 900; font-size: clamp(2.75rem, 6vw, 5.5rem); line-height: 1; letter-spacing: -0.03em; }
+.content-hero h1 { grid-column: 2; font-weight: 700; font-size: clamp(2.75rem, 6vw, 5.5rem); line-height: 1; letter-spacing: 0; }
 .content-hero .lede { grid-column: 2; max-width: 46ch; font-size: var(--step-lead); line-height: 1.5; color: var(--ink); }
 .content-hero .lede a { color: var(--accent); }
 .content-hero .eyebrow { display: none; }
@@ -586,4 +597,24 @@ button, a, select, input { -webkit-tap-highlight-color: transparent; }
   .hero__top { position: relative; }
   .hero__top .hero__nav { position: static; }
   .hero__top .hero__nav button { position: absolute; right: 0; top: 12px; padding-right: 0; }
+}
+
+/* 表單元件預設不繼承字型，統一用芫荽（Iansui） */
+button, input, select, textarea { font-family: inherit; }
+
+/* ════ 標題字：王漢宗中行書 ════
+   行書只放在標題與品牌字；內文、表單、數字、AI 回覆維持芫荽，才讀得清楚。 */
+h1, h2, h3,
+.site-header__brand, .hero__wordmark, .hero__title,
+.stairs .line, .features__title h2, .cta__band h2,
+.heming-title, .heming-subtitle {
+  font-family: var(--display);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0.02em;
+}
+.ai-prose h3, .ai-prose h4 { font-family: var(--serif); font-weight: 700; font-synthesis: weight; letter-spacing: 0; }
+/* 行書筆畫細，小字號不好認：小標題改回芫荽粗體 */
+.quote-group h2, .feature h3, .kb-card h3, .heming-subtitle, .agenda__head h2 span, .content-foot h2, .simple-page h2 {
+  font-family: var(--serif); font-weight: 700; font-synthesis: weight; letter-spacing: 0;
 }

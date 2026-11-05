@@ -62,7 +62,7 @@ export default function ShareCardCanvas({ chart, birth, highlight }: ShareCardPr
       height: '420px',
       background: 'linear-gradient(135deg, #fef9eb 0%, #f7e8c4 60%, #efd8a0 100%)',
       padding: '20px 28px',
-      fontFamily: '"PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif',
+      fontFamily: '"Iansui", "Kaiti TC", "BiauKai", serif',
       position: 'relative',
       boxSizing: 'border-box',
       borderRadius: '14px',
@@ -212,7 +212,7 @@ export default function ShareCardCanvas({ chart, birth, highlight }: ShareCardPr
             <div style={{ fontSize: '10px', color: '#a89b7c', letterSpacing: '0.25em', marginBottom: '2px' }}>命 宮 · {mingBranchName}</div>
             <div style={{
               fontSize: '52px',
-              fontWeight: 800,
+              fontWeight: 700,
               color: '#8b6a14',
               letterSpacing: '0.03em',
               lineHeight: 1,

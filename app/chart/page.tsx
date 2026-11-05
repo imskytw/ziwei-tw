@@ -35,7 +35,7 @@ export default function ChartPage() {
       <>
         <TopBar />
         <main style={{ maxWidth: 720, margin: '0 auto', padding: '40px 20px 64px' }}>
-          <h1 style={{ fontSize: 'var(--step-head)', fontWeight: 900, marginBottom: 12, color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.05 }}>排一張命盤</h1>
+          <h1 style={{ fontSize: 'var(--step-head)', fontWeight: 700, marginBottom: 12, color: 'var(--ink)', letterSpacing: 0, lineHeight: 1.05 }}>排一張命盤</h1>
           <p style={{ color: 'var(--ink)', marginBottom: 32, fontSize: 'var(--step-body)', lineHeight: 1.7 }}>
             輸入國曆生日、出生地與出生時間，系統會依真太陽時校正時辰；台灣 1945–1979 年間的夏令時間也會提醒你。
           </p>

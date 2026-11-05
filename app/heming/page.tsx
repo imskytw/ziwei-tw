@@ -129,7 +129,7 @@ export default function HemingPage() {
 
         {/* 標題 */}
         <div style={{ marginBottom: '40px' }}>
-          <h1 style={{ fontSize: 'var(--step-head)', fontWeight: 900, letterSpacing: '-0.02em', lineHeight: 1.05, color: 'var(--ink)', marginBottom: '12px' }}>
+          <h1 style={{ fontSize: 'var(--step-head)', fontWeight: 700, letterSpacing: 0, lineHeight: 1.05, color: 'var(--ink)', marginBottom: '12px' }}>
             紫微合盤
           </h1>
           <p style={{ fontSize: 'var(--step-body)', color: 'var(--ink)', lineHeight: 1.7, maxWidth: '40ch' }}>

@@ -280,6 +280,8 @@ python3 scripts/sync-upstream/convert-to-tw.py <資料夾>
 | 倪師原話（`lib/tianji/`、`docs/tianji-ziwei/`） | **CC BY-NC-SA 4.0** | **不可商用**；改作須用相同授權；原課程著作權屬倪海廈先生及其權利繼承人 |
 | 古籍原文 | 公有領域 | — |
 | 網站圖片（蘇州石刻天文圖、敦煌星圖、《本草綱目》初刻本） | 公有領域／CC0／CC BY 4.0 | 頁尾已標註，見 `docs/credits/images.json` |
+| 標題字型：王漢宗中行書繁（`public/fonts/`，已縮減字數） | GNU GPL v2 以上 | 免費；王漢宗教授捐出，再散布須附授權全文（`public/fonts/LICENSE-wanghanzong-GPL-2.0.txt`） |
+| 內文字型：芫荽 Iansui（手寫楷書，台灣教育部標準字形，由 Google Fonts 載入） | SIL Open Font License 1.1 | 免費、可商用；作者 But Ko，https://github.com/ButTaiwan/iansui |
 
 - 網站頁尾已放上來源標註，**改作或公開架設時請保留**。
 - 因為含有不可商用的倪師原話，**整個網站請勿拿來收費**；若要商用，須先移除 `lib/tianji/`、`docs/tianji-ziwei/` 與相關頁面。

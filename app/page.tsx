@@ -226,12 +226,12 @@ export default function HomePage() {
         <div />
         <div className="foot__mark">
           <svg viewBox={`0 0 ${markLen * 100} 96`} role="img" aria-label={SITE_NAME}>
-            <text x="0" y="86" fontSize="100" fontWeight="900" textLength={markLen * 100} lengthAdjust="spacingAndGlyphs" fontFamily="'Noto Serif TC', 'Songti TC', serif">{SITE_NAME}</text>
+            <text x="0" y="86" fontSize="100" fontWeight="400" textLength={markLen * 100} lengthAdjust="spacingAndGlyphs" fontFamily="'Wang XingShu', 'Iansui', serif">{SITE_NAME}</text>
           </svg>
           <p className="foot__legal">
             圖片：{IMAGE_CREDITS.map((c, i) => (
               <span key={c.url}>{i > 0 && '；'}<a href={c.url}>{c.title}</a>，{c.by}，{c.licence}</span>
-            ))}，均經 Wikimedia Commons，已轉為雙色處理。倪海廈先生本人與本站無任何關聯。
+            ))}，均經 Wikimedia Commons，已轉為雙色處理。字型：標題<a href="https://github.com/cghio/wangfonts">王漢宗中行書繁</a>（GNU GPL），內文<a href="https://github.com/ButTaiwan/iansui">芫荽 Iansui</a>（SIL Open Font License）。倪海廈先生本人與本站無任何關聯。
           </p>
         </div>
       </footer>

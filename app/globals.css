@@ -5,7 +5,7 @@
 /* ─── 2.0 設計系統 Token ─────────────────────────────────── */
 :root {
   /* 字型 */
-  --font: -apple-system, 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', 'Helvetica Neue', 'Segoe UI', sans-serif;
+  --font: 'Iansui', 'Kaiti TC', 'BiauKai', 'DFKai-SB', serif;
   --font-mono: 'SF Mono', 'Menlo', 'Noto Sans Mono', 'Consolas', monospace;
 
   /* 背景層級 */
